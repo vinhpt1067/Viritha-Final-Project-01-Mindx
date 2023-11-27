@@ -1,5 +1,5 @@
 /**
-* ! Changing default styles of the browser
+* ! Reset CSS
 **/
 
 * {
@@ -21,24 +21,31 @@ a {
   color: white;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --green: #23d93a;
+}
+
 /**
 * ! Navbar 
 **/
 
 .navbar {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  background-color: #212529;
+  background-color: black;
   color: white;
-  padding: 25px 60px;
-  margin-bottom: 30px;
+  padding: 28px 60px;
+  margin-bottom: 32px;
 }
 
 .cart {
   position: relative;
-  background-color: #fff;
-  color: #212529;
+  /* background-color: black; */
+  color: white;
   font-size: 30px;
   padding: 5px;
   border-radius: 4px;
@@ -46,8 +53,8 @@ a {
 
 .cartAmount {
   position: absolute;
-  top: -15px;
-  right: -10px;
+  top: -12px;
+  right: -4px;
   font-size: 16px;
   background-color: red;
   color: white;
@@ -61,26 +68,19 @@ a {
 
 .shop {
   display: grid;
-  grid-template-columns: repeat(4, 223px);
+  grid-template-columns: repeat(4, 224px);
   gap: 30px;
   justify-content: center;
 }
 
-@media (max-width: 63.9375em) {
-  .shop {
-    grid-template-columns: repeat(2, 223px);
-  }
-}
-
-@media (max-width: 46.1875em) {
-  .shop {
-    grid-template-columns: repeat(1, 223px);
-  }
-}
-
 .item {
   border: 2px solid #212529;
-  border-radius: 4px;
+  border-radius: 12px;
+}
+
+.totalPrice {
+  font-weight: 700;
+  color: var(--green)
 }
 
 .details {
@@ -109,7 +109,7 @@ a {
 }
 
 .bi-plus-lg {
-  color: green;
+  color: var(--green);
 }
 
 /**
@@ -134,7 +134,7 @@ a {
 }
 
 .checkout {
-  background-color: green;
+  background-color: var(--green);
 }
 .removeAll {
   background-color: red;
@@ -144,13 +144,34 @@ a {
   font-weight: bold;
 }
 
+#toTopBtn {
+  display: none; 
+  position: fixed; 
+  bottom: 20px; 
+  right: 30px; 
+  z-index: 99; 
+  border: none; 
+  outline: none; 
+  background-color: black; 
+  color: var(--green); 
+  cursor: pointer;
+  padding: 12px; 
+  border-radius: 12px; 
+  font-size: 24px; 
+  transition: 0.2s ease-out;
+}
+
+#toTopBtn:hover {
+  background-color: #555; 
+}
+
 /**
 * ! style rules for shopping-cart
 **/
 
 .shopping-cart {
   display: grid;
-  grid-template-columns: repeat(1, 320px);
+  grid-template-columns: repeat(1, 400px);
   justify-content: center;
   gap: 15px;
 }
@@ -166,22 +187,31 @@ a {
 }
 
 .title-price-x {
-  width: 195px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  /* border: 2px solid red; */
-}
-
-.title-price {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .cart-item-price {
-  background-color: #212529;
-  color: white;
+  color: var(--green);
   border-radius: 4px;
-  padding: 3px 6px;
+  padding: 4px 8px;
+  margin: 4px 0;
+}
+
+.remove-item-button {
+  position: relative;
+
+}
+
+/* Responsive */
+@media (max-width: 63.9375em) {
+  .shop {
+    grid-template-columns: repeat(2, 224px);
+  }
+}
+
+@media (max-width: 46.1875em) {
+  .shop {
+    grid-template-columns: repeat(1, 224px);
+  }
 }

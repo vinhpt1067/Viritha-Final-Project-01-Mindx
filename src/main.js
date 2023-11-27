@@ -2,11 +2,28 @@ let shop = document.getElementById("shop");
 
 let basket = JSON.parse(localStorage.getItem("data")) || [];
 
+let toTopButton = document.getElementById("toTopBtn");
+
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    toTopButton.style.display = "block";
+  } else {
+    toTopButton.style.display = "none";
+  }
+}
+
+function toTopFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
 let generateShop = () => {
   return (shop.innerHTML = shopItemsData
     .map((x) => {
       let { id, name, price, desc, img } = x;
-      let search = basket.find((x) => x.id === id) || [];
+      let search = basket.find((x) => x.id === id) ?? [];
       return `
     <div id=product-id-${id} class="item">
         <img width="220" src=${img} alt="">
@@ -14,7 +31,7 @@ let generateShop = () => {
           <h3>${name}</h3>
           <p>${desc}</p>
           <div class="price-quantity">
-            <h2>${price} đ </h2>
+            <p class="totalPrice">${price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})} <p>
             <div class="buttons">
               <i onclick="decrement(${id})" class="bi bi-dash-lg"></i>
               <div id=${id} class="quantity">
@@ -45,7 +62,6 @@ let increment = (id) => {
     search.item += 1;
   }
 
-  // console.log(basket);
   update(selectedItem.id);
   localStorage.setItem("data", JSON.stringify(basket));
 };
@@ -60,12 +76,10 @@ let decrement = (id) => {
   }
   update(selectedItem.id);
   basket = basket.filter((x) => x.item !== 0);
-  // console.log(basket);
   localStorage.setItem("data", JSON.stringify(basket));
 };
 let update = (id) => {
   let search = basket.find((x) => x.id === id);
-  // console.log(search.item);
   document.getElementById(id).innerHTML = search.item;
   calculation();
 };

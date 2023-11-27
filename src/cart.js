@@ -1,7 +1,22 @@
 let label = document.getElementById("label");
 let ShoppingCart = document.getElementById("shopping-cart");
-
 let basket = JSON.parse(localStorage.getItem("data")) || [];
+let toTopButton = document.getElementById("toTopBtn");
+
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    toTopButton.style.display = "block";
+  } else {
+    toTopButton.style.display = "none";
+  }
+}
+
+function toTopFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
 
 let calculation = () => {
   let cartIcon = document.getElementById("cartAmount");
@@ -18,24 +33,21 @@ let generateCartItems = () => {
         let search = shopItemsData.find((y) => y.id === id) || [];
         return `
       <div class="cart-item">
-        <img width="100" src=${search.img} alt="" />
+        <img width="200" src=${search.img} alt="" />
         <div class="details">
-
           <div class="title-price-x">
-              <h4 class="title-price">
-                <p>${search.name}</p>
-                <p class="cart-item-price">${search.price} đ</p>
-              </h4>
-              <i onclick="removeItem(${id})" class="bi bi-x-lg"></i>
+            <h4 class="title-price">${search.name}</h4>
+            <i onclick="removeItem(${id})" class="bi bi-x-lg remove-item-button"></i>
           </div>
-
+          <p class="cart-item-price">${search.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</p>
+          
           <div class="buttons">
               <i onclick="decrement(${id})" class="bi bi-dash-lg"></i>
               <div id=${id} class="quantity">${item}</div>
               <i onclick="increment(${id})" class="bi bi-plus-lg"></i>
           </div>
 
-          <h3>${item * search.price} đ</h3>
+          <p class="totalPrice">${(item * search.price).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}<p>
         </div>
       </div>
       `;
@@ -44,9 +56,9 @@ let generateCartItems = () => {
   } else {
     ShoppingCart.innerHTML = ``;
     label.innerHTML = `
-    <h2>Cart is Empty</h2>
+    <h2>Giỏ hàng đang trống</h2>
     <a href="index.html">
-      <button class="HomeBtn">Back to home</button>
+      <button class="HomeBtn">Về trang chủ</button>
     </a>
     `;
   }
@@ -88,7 +100,7 @@ let decrement = (id) => {
 
 let update = (id) => {
   let search = basket.find((x) => x.id === id);
-  // console.log(search.item);
+  
   document.getElementById(id).innerHTML = search.item;
   calculation();
   TotalAmount();
@@ -96,7 +108,7 @@ let update = (id) => {
 
 let removeItem = (id) => {
   let selectedItem = id;
-  // console.log(selectedItem.id);
+  
   basket = basket.filter((x) => x.id !== selectedItem.id);
   generateCartItems();
   TotalAmount();
@@ -119,9 +131,9 @@ let TotalAmount = () => {
         return item * search.price;
       })
       .reduce((x, y) => x + y, 0);
-    // console.log(amount);
+
     label.innerHTML = `
-    <h2>Tổng hóa đơn : ${amount} đ</h2>
+    <h2>Tổng hóa đơn : ${amount.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</h2>
     <button class="checkout">Thanh toán</button>
     <button onclick="clearCart()" class="removeAll">Xóa hết</button>
     `;
